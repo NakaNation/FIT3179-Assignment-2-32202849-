@@ -1,0 +1,127 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "An interactive scatter plot of global health statistics by country and year.",
+  "data": {
+    "url": "scatter_data.csv"
+  },
+  "title": "Confidence In Government & Freedom (2006-2021)",
+  "width": "container",
+  "height": 400,
+  "background": "#f2ebe9",
+  "params": [
+    {
+      "name": "year",
+      "value": 2006,
+      "bind": {"input": "range", "min": 2006, "max": 2021, "step": 1, "name": "Year: "}
+    },
+    {
+      "name": "Region_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Eastern Europe and CIS",
+          "East Asia",
+          "Latin America and Caribbean",
+          "Middle East and North Africa",
+          "North America and ANZ",
+          "South and Southeast Asia",
+          "Sub-Saharan Africa and Western Europe"
+        ],
+        "labels": [
+          "Show All",
+          "Eastern Europe and CIS",
+          "East Asia",
+          "Latin America and Caribbean",
+          "Middle East and North Africa",
+          "North America and ANZ",
+          "South and Southeast Asia",
+          "Sub-Saharan Africa and Western Europe"
+        ],
+        "name": "Region Selection: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.Year == year"},
+    {"filter": "Region_selection == null || datum.Region == Region_selection"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "circle", "size": 100, "opacity": 0.9},
+      "encoding": {
+        "x": {
+          "field": "Freedom_To_Make_Life_Choices",
+          "type": "quantitative",
+          "scale": {"domain": [0, 1]},
+          "axis": {"tickCount": 5, "title": "Freedom To Make Life Choices"}
+        },
+        "y": {
+          "field": "Confidence_In_National_Government",
+          "type": "quantitative",
+          "scale": {"domain": [0, 1]},
+          "axis": {"tickCount": 5, "title": "Confidence In National Government"}
+        },
+        "color": {"field": "Region", "type": "nominal", "title": "Region"},
+        "tooltip": [
+          {"field": "Region", "type": "nominal", "title": "Region"},
+          {"field": "Country", "type": "nominal", "title": "Country"},
+          {"field": "Confidence_In_National_Government", "type": "quantitative", "title": "Confidence In National Government", "format": ".2f"},
+          {"field": "Freedom_To_Make_Life_Choices", "type": "quantitative", "title": "Freedom To Make Life Choices", "format": ".2f"},
+          {"field": "Year", "type": "nominal", "title": "Year"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 5},
+      "encoding": {
+        "x": {"field": "Freedom_To_Make_Life_Choices", "type": "quantitative"},
+        "y": {"field": "Confidence_In_National_Government", "type": "quantitative"},
+        "text": {
+          "condition": [
+            {"test": "datum['Country'] == 'Singapore'", "value": "Singapore"},
+            {"test": "datum['Country'] == 'United States'", "value": "United States"}
+          ],
+          "value": ""
+        },
+        "color": {"value": "black"}
+      }
+    },
+    {
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "x": 30,
+            "y": 140,
+            "fontSize": 16,
+            "fontWeight": "normal"
+          },
+          "encoding": {
+            "text": {"value": "United States confidence in national "},
+            "color": {"value": "black"}
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "x": 30,
+            "y": 160,
+            "fontSize": 16,
+            "fontWeight": "normal"
+          },
+          "encoding": {
+            "text": {"value": "government has decreased over time"},
+            "color": {"value": "black"}
+          }
+        }
+      ],
+      "height": 300
+    }
+    
+  ]
+}

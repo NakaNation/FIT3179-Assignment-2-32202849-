@@ -1,0 +1,55 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "bubble.csv"
+    },
+    "height": 400,
+    "background": "#f2ebe9",
+    "vconcat": [
+      {
+        "mark": "bar",
+        "width": "container",
+        "encoding": {
+          "y": {"field": "Country", "type": "ordinal"},
+          "x": {"field": "CO2_emission_million_tons_per_capita", "title": "CO2 emission (million per capita)","type": "quantitative", "scale": {"domain": {"selection": "brush"}}},
+          "color": {"field": "Country", "type": "nominal"},
+          "tooltip": [
+            {"field": "Country", "type": "nominal"},
+            {"field": "CO2_emission_million_tons_per_capita", "title": "CO2 emission (million per capita)", "type": "quantitative"}
+          ],
+          "opacity": {
+            "condition": {
+              "selection": "brush",
+              "value": 1
+            },
+            "value": 0.2
+          }
+        }
+      },
+      {
+        "mark": "point",
+        "width": "container",
+        "selection": {
+          "brush": {"type": "interval", "encodings": ["x"]}
+        },
+        "encoding": {
+          "y": {"field": "Country", "type": "ordinal"},
+          "x": {"field": "CO2_emission_million_tons_per_capita", "title": "CO2 emission (million per capita)", "type": "quantitative"},
+          "color": {"field": "Country", "type": "nominal"},
+          "tooltip": [
+            {"field": "Country", "type": "nominal"},
+            {"field": "CO2_emission_million_tons_per_capita", "title": "CO2 emission (million per capita)","type": "quantitative"}
+          ]
+        }
+      }
+    ],
+    "title": {
+      "text": {
+        "signal": "'CO2 Emission Of Top 8 Countries'"
+      },
+      "fontSize": 14,
+      "anchor": "middle",
+      "align": "center"
+    }
+  }
+  

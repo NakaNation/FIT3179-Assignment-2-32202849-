@@ -1,0 +1,65 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "line.csv"
+    },
+    "title":"Average School Years (2000-2015)",
+    "params": [
+      {
+        "name": "Region_selection",
+        "bind": {
+          "input": "select",
+          "options": [null, "Europe", "North America", "Oceania", "South America", "Africa", "Asia"],
+          "labels": ["Show All", "Europe", "North America", "Oceania", "South America", "Africa", "Asia"],
+          "name": "Region Selection: "
+        }
+      }
+    ],
+    "width": "container",
+    "height": 300,
+    "background": "#f2ebe9",
+    "encoding": {"x": {"field": "Year", "type": "temporal", "timeUnit": "year"}},
+    "transform": [{"filter": "Region_selection == null || datum.Region == Region_selection"}],
+    "layer": [
+      {
+        "encoding": {
+          "color": {"field": "Region", "type": "nominal"},
+          "y": {"field": "Schooling", "type": "quantitative"}
+        },
+        "layer": [
+          {"mark": "line", "point": true},
+          {"transform": [{"filter": {"param": "hover", "empty": false}}], "mark": "point"}
+        ]
+      },
+      {
+        "transform": [{"pivot": "Region", "value": "Schooling", "groupby": ["Year"]}],
+        "mark": "rule",
+        "encoding": {
+          "opacity": {
+            "condition": {"value": 0.3, "param": "hover", "empty": false},
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "Europe", "type": "quantitative", "format": ".2f"},
+            {"field": "North America", "type": "quantitative", "format": ".2f"},
+            {"field": "Oceania", "type": "quantitative", "format": ".2f"},
+            {"field": "South America", "type": "quantitative", "format": ".2f"},
+            {"field": "Africa", "type": "quantitative", "format": ".2f"},
+            {"field": "Asia", "type": "quantitative", "format": ".2f"},
+            {"field": "Year", "type": "temporal", "timeUnit": "year", "title": "Year"}
+          ]
+        },
+        "params": [{
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["Year"],
+            "nearest": true,
+            "on": "mouseover",
+            "clear": "mouseout"
+          }
+        }]
+      }
+    ]
+  }
+  

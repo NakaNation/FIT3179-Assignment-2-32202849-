@@ -1,0 +1,184 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container",
+    "height": 425,
+    "background": "#f2ebe9",
+    "title": "GDP Per Capita vs BMI (2000-2015)",
+    "data": {
+      "url": "who_data.csv"
+    },
+    "params": [
+      {
+        "name": "year_selected",
+        "value": 2000,
+        "bind": {
+          "input": "range",
+          "min": 2000,
+          "max": 2015,
+          "step": 1,
+          "name": "Year: "
+        }
+      },
+      {
+        "name": "pop_selected",
+        "value": 20,
+        "bind": {
+          "input": "range",
+          "min": 1,
+          "max": 140,
+          "step": 1,
+          "name": "Population above (Million): "
+        }
+      },
+        {
+        "name": "Region_selection",
+        "bind": {
+            "input": "select",
+            "options": [
+            null,
+            "Africa",
+            "Asia",
+            "European Union",
+            "North America",
+            "Oceania",
+            "South America"
+            ],
+            "labels": [
+            "Show All",
+            "Africa",
+            "Asia",
+            "European Union",
+            "North America",
+            "Oceania",
+            "South America"
+            ],
+            "name": "Region Selection: "
+        }
+        }
+    ],
+    "transform": [
+      {"filter": "datum['Year'] == year_selected"},
+      {"filter": "datum['Population_mln'] > pop_selected"},
+      {"filter": "Region_selection == null || datum.Region == Region_selection"}
+    ],
+    "encoding": {
+      "x": {
+        "field": "GDP_per_capita",
+        "type": "quantitative",
+        "title": "GDP per Capita (USD)",
+        "axis": {"tickCount": 5},
+        "scale": {"type": "log", "domain": [90, 150000]}
+      },
+      "y": {
+        "field": "BMI",
+        "type": "quantitative",
+        "title": "BMI",
+        "axis": {"tickCount": 6},
+        "scale": {"domain": [15, 30]}
+      }
+    },
+    "layer": [
+      {
+        "mark": "circle",
+        "params": [
+          {
+            "name": "continent_filter",
+            "select": {"type": "point", "fields": ["Region"]},
+            "bind": "legend"
+          }
+        ],
+        "encoding": {
+          "size": {
+            "field": "Population_mln",
+            "type": "quantitative",
+            "scale": {
+              "type": "threshold",
+              "domain": [1, 10, 500, 1000],
+              "range": [30, 150, 500, 1000, 2000]
+            },
+            "legend": {"format": ".1s"}
+          },
+          "color": {
+            "field": "Region",
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "Africa",
+                "Asia",
+                "European Union",
+                "North America",
+                "Oceania",
+                "South America"
+              ],
+              "range": [
+                "#e41a1c",
+                "#984ea3",
+                "#ff7f00",
+                "#bc6c25",
+                "#377eb8",
+                "#0BDA51"
+              ]
+            }
+          },
+          "opacity": {
+            "condition": {"param": "continent_filter", "value": 0.6},
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "Country", "type": "nominal"},
+            {
+              "field": "Population_mln",
+              "type": "quantitative",
+              "format": ",.2f",
+              "title": "Population (Million)"
+            },
+            {
+              "field": "GDP_per_capita",
+              "type": "quantitative",
+              "format": ",.2f",
+              "title": "GDP per Capita (USD)"
+            },
+            {"field": "BMI", "type": "quantitative", "format": ",.2f"}
+          ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "right",
+          "baseline": "middle",
+          "dy": -12,
+          "dx": 12,
+          "fontSize": 12,
+          "fontStyle": "san-serif"
+        },
+        "encoding": {
+          "text": {"field": "Country", "type": "nominal"},
+          "color": {"value": "black"},
+          "opacity": {
+            "condition": {
+              "test": "datum['Country'] == 'United States' || datum['Country'] == 'Ethiopia' || datum['Country'] == 'China' || datum['Country'] == 'India' || datum['Country'] == 'Brazil'",
+              "value": 1
+            },
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "Country", "type": "nominal"},
+            {
+              "field": "Population_mln",
+              "type": "quantitative",
+              "format": ",.2f"
+            },
+            {
+              "field": "GDP_per_capita",
+              "type": "quantitative",
+              "format": ",.2f",
+              "title": "GDP per Capita (USD)"
+            },
+            {"field": "BMI", "type": "quantitative", "format": ","}
+          ]
+        }
+      }
+    ],
+    "config": {"title": {"font": "sans-serif", "fontSize": 14}}
+  }

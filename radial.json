@@ -1,0 +1,54 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A simple radial chart with GDP per capita data for the top 5 countries.",
+    "width": "container",
+    "title": "Social Support In 2022",
+    "height": 350,
+    "background": "#f2ebe9",
+    "data": {
+        "url": "World_Happiness_Report.csv"
+    },
+    "params": [
+        {
+        "name": "Country_selection",
+        "bind": {
+            "input": "select",
+            "options": [
+            null,
+            "Afghanistan","Bangladesh","Comoros","Sierra Leone","Benin", "Malawi", "Lebanon", "Ivory Coast"
+            ],
+            "labels":[
+            "Show All",
+            "Afghanistan","Bangladesh","Comoros","Sierra Leone","Benin", "Malawi", "Lebanon", "Ivory Coast"
+            ],
+            "name": "Country Selection: "
+            }
+        }   
+    ],
+    "transform": [
+    {
+        "filter": {
+            "field": "Country",
+            "oneOf": ["Afghanistan","Bangladesh","Comoros","Sierra Leone","Benin", "Malawi", "Lebanon", "Ivory Coast"]
+        }
+    },
+    {"filter": "Country_selection == null || datum.Country == Country_selection"},
+    {"filter": "datum.Year == 2022"}
+    ],
+    "layer": [{
+        "mark": {"type": "arc", "innerRadius": 20, "stroke": "#fff"}
+    },{
+        "mark": {"type": "text", "radiusOffset": 10},
+        "encoding": {
+            "text": {"field": "Social_support", "type": "quantitative", "format": ".2f"}
+        }
+    }],
+    "encoding": {
+        "theta": {"field": "Social_support", "type": "quantitative", "stack": true},
+        "radius": {"field": "Social_support", "scale": {"type": "sqrt", "zero": true, "rangeMin": 20}},
+        "color": {"field": "Country", "type": "nominal"},
+        "tooltip": [{"field": "Country", "type": "nominal"}, 
+        {"field": "Social_support", "type": "nominal", "title": "Social support"}]
+    },
+    "config": {}
+  }
