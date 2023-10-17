@@ -1,0 +1,121 @@
+/* Reset default margin and padding */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+/* Use a modern sans-serif font */
+body {
+    font-family: 'Roboto', sans-serif;
+	color: #264143;
+}
+
+/* Use Montserrat for headings */
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+/* Set a light background color for the body */
+body {
+    background-color: #f9f9f9;
+}
+
+/* Define a modern page container with padding */
+.page {
+    width: 70%;
+    max-width: 100%; /* Adjust to your desired maximum width */
+  	margin: 0 auto;
+    padding: 20px;
+    background-color: #f2ebe9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  }
+
+.spec-container {
+    width: 50%;
+    margin: 40px;
+}
+
+/* Styles for the content */
+.content {
+  padding: 20px;
+}
+
+/* Apply specific styles for the left and right columns */
+.pure-u-1-2 {
+  width: 50%;
+  box-sizing: border-box;
+  float: left;
+}
+
+/* Adjust margin and padding for the lists */
+ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+/* Clear floats after the columns */
+.pure-g:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Adjust spacing between the columns */
+.vis-container {
+  margin: 0 20px;
+}
+
+
+
+/* Ensure visuals take full width */
+.vis-container {
+	width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Style headings for descriptions */
+.description h2, .description h1 {
+    margin-top: 0;
+}
+
+/* Adjust spacing for right-aligned descriptions */
+.description-right {
+    padding-left: 20px;
+	margin: 60px;
+	margin-top: 10px;
+}
+
+/* Adjust spacing for left-aligned descriptions */
+.description-left {
+    padding-right: 20px;
+	margin: 60px;
+	margin-top: 10px;
+}
+
+/* Add some margin between grid groups */
+.pure-g {
+    margin-bottom: 20px;
+	border: 1px solid #264143;;
+    border-radius: 10px;
+	padding: 30px;
+}
+
+/* Define a class for smaller font size */
+.small-font {
+    font-size: 14px;
+}
